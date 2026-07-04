@@ -303,8 +303,14 @@ const INVALID_CREDS_MSG =
   'Invalid credentials. Please check your email and password.';
 
 export async function login(input: LoginInput): Promise<LoginResult> {
-  const user = await prisma.user.findUnique({
-    where: { email: input.email.toLowerCase().trim() },
+  const loginSearch = input.email.trim();
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { email: loginSearch.toLowerCase() },
+        { loginId: loginSearch },
+      ],
+    },
     select: {
       id:                 true,
       loginId:            true,

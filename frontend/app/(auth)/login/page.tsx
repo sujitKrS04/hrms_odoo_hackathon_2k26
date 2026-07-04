@@ -9,9 +9,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FormField } from '../../components/Primitives';
 import { useAuth } from '../../components/AuthContext';
 import { apiRequest, ResponseError } from '../../utils/api';
+import { Eye, EyeOff } from 'lucide-react';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().min(1, 'Login ID is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -24,6 +25,7 @@ function LoginForm() {
   const role = searchParams.get('role');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -122,23 +124,50 @@ function LoginForm() {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Credentials Field - Login ID instead of Email */}
         <FormField
-          label="Email Address"
-          type="email"
-          placeholder="e.g. employee@company.com"
+          label="Login ID"
+          type="text"
+          placeholder="e.g. admin@odoo2026"
           error={errors.email?.message}
           required
           {...register('email')}
         />
 
-        <FormField
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-          error={errors.password?.message}
-          required
-          {...register('password')}
-        />
+        {/* Password Field with Show/Hide Eye toggle button */}
+        <div className="flex flex-col gap-1.5 w-full relative">
+          <label className="text-xs font-semibold text-text uppercase tracking-wider font-sans">
+            Password <span className="text-status-absent">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="••••••••"
+              className={`w-full pl-4 pr-10 py-2.5 bg-background border rounded-lg text-text text-sm transition-all duration-150 font-sans focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent ${
+                errors.password ? 'border-status-absent animate-shake' : 'border-border'
+              }`}
+              {...register('password')}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text focus:outline-none transition-colors"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4.5 w-4.5" />
+              ) : (
+                <Eye className="h-4.5 w-4.5" />
+              )}
+            </button>
+          </div>
+          {errors.password?.message ? (
+            <span className="text-xs font-semibold text-status-absent mt-0.5 font-sans">
+              {errors.password.message}
+            </span>
+          ) : (
+            <span className="h-4" />
+          )}
+        </div>
 
         <div className="flex items-center justify-between text-xs pt-1">
           <label className="flex items-center gap-2 cursor-pointer text-text-muted hover:text-text transition-colors">
@@ -172,12 +201,14 @@ function LoginForm() {
         </button>
       </form>
 
-      <div className="text-center text-xs text-text-muted pt-4 border-t border-border/60">
-        New to HRMS Core?{' '}
-        <Link href="/signup" className="text-accent font-semibold hover:underline">
-          Register your company
-        </Link>
-      </div>
+      {role !== 'admin' && (
+        <div className="text-center text-xs text-text-muted pt-4 border-t border-border/60">
+          New to HRMS Core?{' '}
+          <Link href="/signup" className="text-accent font-semibold hover:underline">
+            Register your company
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

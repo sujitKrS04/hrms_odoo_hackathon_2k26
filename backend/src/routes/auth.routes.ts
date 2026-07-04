@@ -73,8 +73,8 @@ router.post(
 // Public. Returns JWT + mustChangePassword flag.
 
 const LoginSchema = z.object({
-  email:    z.string({ required_error: 'Email is required' })
-             .email('Please enter a valid email address'),
+  email:    z.string({ required_error: 'Login ID or Email is required' })
+             .min(1, 'Login ID or Email is required'),
   password: z.string({ required_error: 'Password is required' })
              .min(1, 'Password is required'),
 });
