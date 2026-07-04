@@ -142,19 +142,17 @@ The frontend application will now be accessible at [http://localhost:3000](http:
 
 The database seed (`backend/prisma/seed.ts`) populates the system with users under the company **Odoo India**. 
 
-**Password for all users:** `Dev@12345`
-
-| Role       | Login ID         | Full Name       |
-|------------|------------------|-----------------|
-| `admin`    | `OIARSH20260001` | Arjun Sharma    |
-| `hr`       | `OIPRNA20260002` | Priya Nair      |
-| `hr`       | `OIKIDA20260003` | Kiran Das       |
-| `employee` | `OIRAME20260004` | Rahul Mehta     |
-| `employee` | `OISNPA20260005` | Sneha Patel     |
-| `employee` | `OIVISI20260006` | Vikram Singh    |
-| `employee` | `OIANRE20260007` | Anjali Reddy    |
-| `employee` | `OIMEJO20260008` | Meera Joshi     |
-| `employee` | `OIROGU20260009` | Rohan Gupta     |
+| Role       | Login ID         | Password    | Full Name       |
+|------------|------------------|-------------|-----------------|
+| `admin`    | `OIARSH20260001` | `Arjun@2026`| Arjun Sharma    |
+| `hr`       | `OIPRNA20260002` | `Priya@2026`| Priya Nair      |
+| `hr`       | `OIKIDA20260003` | `Kiran@2026`| Kiran Das       |
+| `employee` | `OIRAME20260004` | `Rahul@2026`| Rahul Mehta     |
+| `employee` | `OISNPA20260005` | `Sneha@2026`| Sneha Patel     |
+| `employee` | `OIVISI20260006` | `Vikram@2026`| Vikram Singh    |
+| `employee` | `OIANRE20260007` | `Anjali@2026`| Anjali Reddy    |
+| `employee` | `OIMEJO20260008` | `Meera@2026`| Meera Joshi     |
+| `employee` | `OIROGU20260009` | `Rohan@2026`| Rohan Gupta     |
 
 ---
 

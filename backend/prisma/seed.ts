@@ -1,4 +1,4 @@
-﻿/**
+/**
  * backend/prisma/seed.ts
  * ─────────────────────────────────────────────────────────────────────────────
  * Comprehensive HRMS development seed.
@@ -27,8 +27,12 @@ import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-const DEV_PASSWORD = 'Dev@12345';
 const BCRYPT_ROUNDS = 12;
+
+// Utility to generate unique demo passwords
+async function hashPass(password: string) {
+  return await bcrypt.hash(password, BCRYPT_ROUNDS);
+}
 
 // ─── Date Helpers ─────────────────────────────────────────────────────────────
 
@@ -83,7 +87,7 @@ type AttDay = {
 
 const PATTERNS: Record<string, AttDay[]> = {
   // ── Arjun Sharma — Admin / CTO ──────────────────────────────────────────
-  ACarma2024001: [
+  OIARSH20260001: [
     { status: 'present', inH: 9, inM: 0, outH: 18, outM: 30 },
     { status: 'present', inH: 8, inM: 50, outH: 18, outM: 45 },
     { status: 'present', inH: 9, inM: 10, outH: 18, outM: 0 },
@@ -219,8 +223,8 @@ type SalaryDef = {
 
 const SALARY: Record<string, SalaryDef> = {
   // CTO — Monthly gross 350 000 → CTC 4 200 000
-  ACarma2024001: {
-    ctc: 4_200_000, effectiveFrom: '2024-01-15',
+  OIARSH20260001: {
+    ctc: 4_200_000, effectiveFrom: '2026-01-15',
     components: [
       { name: 'basic', type: 'earning', amount: 200_000 },
       { name: 'hra', type: 'earning', amount: 80_000 },
@@ -352,9 +356,7 @@ async function main(): Promise<void> {
   console.log('\n🌱  HRMS seed starting…\n');
 
   // ── Hash dev password ──────────────────────────────────────────────────
-  console.log('  ⟳  Hashing dev password…');
-  const passwordHash = await bcrypt.hash(DEV_PASSWORD, BCRYPT_ROUNDS);
-  const adminPasswordHash = await bcrypt.hash('admin@odoo2026', BCRYPT_ROUNDS);
+  console.log('  ⟳  Clearing existing data…');
 
   // Pre-compute dates we will reference throughout
   const workDays = getLastNWorkingDays(10); // [0]=oldest … [9]=newest
@@ -363,7 +365,6 @@ async function main(): Promise<void> {
   const currentYear = today.getFullYear();
 
   // ── 0. Wipe existing data (reverse dependency order) ──────────────────
-  console.log('  ⟳  Clearing existing data…');
   await prisma.salaryComponent.deleteMany();
   await prisma.salaryStructure.deleteMany();
   await prisma.leaveRequest.deleteMany();
@@ -427,8 +428,8 @@ async function main(): Promise<void> {
     await prisma.$transaction([
       prisma.user.create({
         data: {
-          companyId: company.id, loginId: 'ACarma2024001',
-          email: 'arjun.sharma@acmecorp.com', passwordHash, role: 'admin',
+          companyId: company.id, loginId: 'OIARSH20260001',
+          email: 'arjun.sharma@odooindia.com', passwordHash: await hashPass('Arjun@2026'), role: 'admin',
           firstName: 'Arjun', lastName: 'Sharma', phone: '+91-9800000001',
           departmentId: engDept.id, jobPositionId: posCTO.id,
           hireDate: new Date('2026-01-15'),
@@ -437,7 +438,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIPRNA20260002',
-          email: 'priya.nair@odooindia.com', passwordHash, role: 'hr',
+          email: 'priya.nair@odooindia.com', passwordHash: await hashPass('Priya@2026'), role: 'hr',
           firstName: 'Priya', lastName: 'Nair', phone: '+91-9800000002',
           departmentId: hrDept.id, jobPositionId: posHRD.id,
           hireDate: new Date('2026-02-01'),
@@ -446,7 +447,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIKIDA20260003',
-          email: 'kiran.das@odooindia.com', passwordHash, role: 'hr',
+          email: 'kiran.das@odooindia.com', passwordHash: await hashPass('Kiran@2026'), role: 'hr',
           firstName: 'Kiran', lastName: 'Das', phone: '+91-9800000003',
           departmentId: hrDept.id, jobPositionId: posHRBP.id,
           hireDate: new Date('2026-03-15'),
@@ -455,7 +456,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIRAME20260004',
-          email: 'rahul.mehta@odooindia.com', passwordHash, role: 'employee',
+          email: 'rahul.mehta@odooindia.com', passwordHash: await hashPass('Rahul@2026'), role: 'employee',
           firstName: 'Rahul', lastName: 'Mehta', phone: '+91-9800000004',
           departmentId: engDept.id, jobPositionId: posEM.id,
           hireDate: new Date('2026-03-01'),
@@ -464,7 +465,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OISNPA20260005',
-          email: 'sneha.patel@odooindia.com', passwordHash, role: 'employee',
+          email: 'sneha.patel@odooindia.com', passwordHash: await hashPass('Sneha@2026'), role: 'employee',
           firstName: 'Sneha', lastName: 'Patel', phone: '+91-9800000005',
           departmentId: engDept.id, jobPositionId: posSrSWE.id,
           hireDate: new Date('2026-04-01'),
@@ -473,7 +474,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIVISI20260006',
-          email: 'vikram.singh@odooindia.com', passwordHash, role: 'employee',
+          email: 'vikram.singh@odooindia.com', passwordHash: await hashPass('Vikram@2026'), role: 'employee',
           firstName: 'Vikram', lastName: 'Singh', phone: '+91-9800000006',
           departmentId: engDept.id, jobPositionId: posSWE.id,
           hireDate: new Date('2026-05-01'),
@@ -482,7 +483,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIANRE20260007',
-          email: 'anjali.reddy@odooindia.com', passwordHash, role: 'employee',
+          email: 'anjali.reddy@odooindia.com', passwordHash: await hashPass('Anjali@2026'), role: 'employee',
           firstName: 'Anjali', lastName: 'Reddy', phone: '+91-9800000007',
           departmentId: engDept.id, jobPositionId: posJrSWE.id,
           hireDate: new Date('2026-06-01'),
@@ -491,7 +492,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIMEJO20260008',
-          email: 'meera.joshi@odooindia.com', passwordHash, role: 'employee',
+          email: 'meera.joshi@odooindia.com', passwordHash: await hashPass('Meera@2026'), role: 'employee',
           firstName: 'Meera', lastName: 'Joshi', phone: '+91-9800000008',
           departmentId: finDept.id, jobPositionId: posFA.id,
           hireDate: new Date('2026-07-01'),
@@ -500,7 +501,7 @@ async function main(): Promise<void> {
       prisma.user.create({
         data: {
           companyId: company.id, loginId: 'OIROGU20260009',
-          email: 'rohan.gupta@odooindia.com', passwordHash, role: 'employee',
+          email: 'rohan.gupta@odooindia.com', passwordHash: await hashPass('Rohan@2026'), role: 'employee',
           firstName: 'Rohan', lastName: 'Gupta', phone: '+91-9800000009',
           departmentId: salesDept.id, jobPositionId: posAE.id,
           hireDate: new Date('2026-08-01'),
@@ -709,15 +710,15 @@ async function main(): Promise<void> {
 
   // ── 14. Print Credentials ─────────────────────────────────────────────
   const creds = [
-    { role: 'admin', loginId: 'ACarma2024001', name: 'Arjun Sharma' },
-    { role: 'hr', loginId: 'ACprir2024002', name: 'Priya Nair' },
-    { role: 'hr', loginId: 'ACkias2024003', name: 'Kiran Das' },
-    { role: 'employee', loginId: 'ACrata2024004', name: 'Rahul Mehta' },
-    { role: 'employee', loginId: 'ACsnel2024005', name: 'Sneha Patel' },
-    { role: 'employee', loginId: 'ACvigh2024006', name: 'Vikram Singh' },
-    { role: 'employee', loginId: 'ACandy2024007', name: 'Anjali Reddy' },
-    { role: 'employee', loginId: 'ACmehi2024008', name: 'Meera Joshi' },
-    { role: 'employee', loginId: 'ACrota2024009', name: 'Rohan Gupta' },
+    { role: 'admin',    loginId: 'OIARSH20260001', name: 'Arjun Sharma', pass: 'Arjun@2026'  },
+    { role: 'hr',       loginId: 'OIPRNA20260002', name: 'Priya Nair',   pass: 'Priya@2026'  },
+    { role: 'hr',       loginId: 'OIKIDA20260003', name: 'Kiran Das',    pass: 'Kiran@2026'  },
+    { role: 'employee', loginId: 'OIRAME20260004', name: 'Rahul Mehta',  pass: 'Rahul@2026'  },
+    { role: 'employee', loginId: 'OISNPA20260005', name: 'Sneha Patel',  pass: 'Sneha@2026'  },
+    { role: 'employee', loginId: 'OIVISI20260006', name: 'Vikram Singh', pass: 'Vikram@2026' },
+    { role: 'employee', loginId: 'OIANRE20260007', name: 'Anjali Reddy', pass: 'Anjali@2026' },
+    { role: 'employee', loginId: 'OIMEJO20260008', name: 'Meera Joshi',  pass: 'Meera@2026'  },
+    { role: 'employee', loginId: 'OIROGU20260009', name: 'Rohan Gupta',  pass: 'Rohan@2026'  },
   ];
 
   const SEP = '─'.repeat(71);
@@ -727,9 +728,8 @@ async function main(): Promise<void> {
   console.log(`│ ${'Role'.padEnd(10)} │ ${'Login ID'.padEnd(16)} │ ${'Password'.padEnd(11)} │ ${'Full Name'.padEnd(24)} │`);
   console.log(`├${'─'.repeat(12)}┼${'─'.repeat(18)}┼${'─'.repeat(13)}┼${'─'.repeat(26)}┤`);
   for (const c of creds) {
-    const pwd = c.loginId === 'admin@odoo2026' ? 'admin@odoo2026' : DEV_PASSWORD;
     console.log(
-      `│ ${c.role.padEnd(10)} │ ${c.loginId.padEnd(15)} │ ${DEV_PASSWORD.padEnd(11)} │ ${c.name.padEnd(21)} │`,
+      `│ ${c.role.padEnd(10)} │ ${c.loginId.padEnd(16)} │ ${c.pass.padEnd(11)} │ ${c.name.padEnd(24)} │`,
     );
   }
   console.log(`└${'─'.repeat(12)}┴${'─'.repeat(18)}┴${'─'.repeat(13)}┴${'─'.repeat(26)}┘\n`);
