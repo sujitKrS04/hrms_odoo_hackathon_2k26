@@ -1,30 +1,28 @@
 /**
  * backend/src/routes/index.ts
- *
- * Root API router. All feature routers are mounted here.
- * Imported by app.ts and mounted at /api.
- *
- * As new feature routes are added they go here:
- *   import authRoutes       from './auth.routes';
- *   import employeeRoutes   from './employee.routes';
- *   router.use('/auth',      authRoutes);
- *   router.use('/employees', authenticate, employeeRoutes);
+ * Root API router — all feature routers mounted here.
  */
 import { Router } from 'express';
-import healthRouter from './health.routes';
-import authRouter   from './auth.routes';
+import { authenticate } from '../middleware/auth.middleware';
+import healthRouter     from './health.routes';
+import authRouter       from './auth.routes';
+import employeeRouter   from './employee.routes';
+import attendanceRouter from './attendance.routes';
+import leaveRouter      from './leave.routes';
+import payrollRouter    from './payroll.routes';
 
 const router = Router();
 
-// ── Unauthenticated ──────────────────────────────────────────────────────────
-router.use(healthRouter);       // GET /api/health
-router.use('/auth', authRouter); // POST /api/auth/signup | /login | /users | /change-password
+// ── Public (no auth) ─────────────────────────────────────────────────────────
+router.use(healthRouter);          // GET /api/health
+router.use('/auth', authRouter);   // POST /api/auth/* (signup, login, users, change-password)
 
-// ── Feature routes (added in later phases) ───────────────────────────────────
-// router.use('/employees',   authenticate, requireRole('admin','hr'), employeeRoutes);
-// router.use('/attendance',  authenticate, attendanceRoutes);
-// router.use('/leave',       authenticate, leaveRoutes);
-// router.use('/payroll',     authenticate, requireRole('admin','hr'), payrollRoutes);
-// router.use('/profile',     authenticate, profileRoutes);
+// ── All routes below require a valid JWT ─────────────────────────────────────
+router.use(authenticate);
+
+router.use('/employees',      employeeRouter);    // GET, PATCH /api/employees
+router.use('/attendance',     attendanceRouter);  // POST check-in/out, GET list
+router.use('/leave-requests', leaveRouter);       // GET, POST, PATCH /api/leave-requests
+router.use('/payroll',        payrollRouter);     // GET, PUT /api/payroll/:userId
 
 export default router;
