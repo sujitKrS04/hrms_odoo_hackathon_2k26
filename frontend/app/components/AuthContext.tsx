@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('auth_user');
     setToken(null);
     setUser(null);
-    router.push('/login');
+    router.push('/');
   };
 
   const updateUser = (updatedFields: Partial<User>) => {
@@ -70,17 +70,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isLoading) return;
 
-    const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup');
+    const isAuthRoute =
+      pathname === '/' ||
+      pathname.startsWith('/login') ||
+      pathname.startsWith('/signup') ||
+      pathname.startsWith('/admin') ||
+      pathname.startsWith('/hr/signin') ||
+      pathname.startsWith('/hr/signup') ||
+      pathname.startsWith('/employee/signin') ||
+      pathname.startsWith('/employee/signup');
+
     const isDesignPreview = pathname.startsWith('/design-preview');
 
     if (isDesignPreview) return;
 
     if (!token && !isAuthRoute) {
-      router.push('/login');
+      router.push('/');
     } else if (token) {
       if (user?.mustChangePassword && pathname !== '/change-password') {
         router.push('/change-password');
-      } else if (isAuthRoute) {
+      } else if (isAuthRoute && pathname !== '/') {
         router.push('/dashboard');
       }
     }

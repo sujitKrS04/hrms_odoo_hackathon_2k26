@@ -20,7 +20,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return null; // AuthProvider handles redirect to /login
+    return null; // AuthProvider handles redirect to /
   }
 
   return (
