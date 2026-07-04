@@ -1,156 +1,159 @@
-# HRMS — Human Resource Management System
+# Human Resource Management System (HRMS)
 
-> A full-stack HRMS monorepo for managing employees, attendance, leave, and payroll.
-> Built with **Next.js 14 (App Router)** on the frontend and **Node.js + Express** on the backend.
+A full-stack Human Resource Management System designed to handle core HR operations including employee management, attendance tracking, leave requests, and payroll processing. 
+
+This repository is structured as a monorepo containing independent frontend and backend services that communicate via a REST API.
 
 ---
 
-## Repository Layout
+## Features
 
-```
+- Authentication & Authorization: Role-based access control (Admin, HR, Employee) with JWT.
+- Employee Management: Profiles, onboarding, departments, and job positions.
+- Attendance Tracking: Check-in/check-out system and attendance logs.
+- Leave Management: Leave types, allocations, and approval workflows.
+- Payroll Processing: Salary structures, compensation components (earnings/deductions).
+
+---
+
+## Technology Stack
+
+### Frontend
+- Framework: Next.js 14 (App Router)
+- Language: TypeScript
+- Styling: Tailwind CSS
+- UI Components: Radix UI, Framer Motion
+- Forms & Validation: React Hook Form, Zod
+
+### Backend
+- Framework: Node.js with Express
+- Language: TypeScript
+- ORM: Prisma
+- Validation: Zod
+- Authentication: JSON Web Tokens (JWT), bcrypt
+
+### Database
+- Engine: PostgreSQL 15+
+
+---
+
+## Repository Structure
+
+```text
 hrms/
-├── frontend/          Next.js 14 App Router + TypeScript
-├── backend/           Node.js + Express + TypeScript (standalone REST API)
-├── database/
-│   ├── schema.sql     DDL — run this first to create all tables
-│   └── seed.sql       Sample data — run after schema.sql
+├── frontend/          Next.js application
+├── backend/           Express REST API
+├── database/          Raw SQL schemas and seeds (reference)
 ├── .gitignore
 └── README.md
 ```
-
-The **frontend** and **backend** are fully independent workspaces. They share no
-code, no dependencies, and no `node_modules`. They communicate **only over HTTP**.
 
 ---
 
 ## Prerequisites
 
-| Tool       | Version   |
-|------------|-----------|
-| Node.js    | ≥ 18.x    |
-| npm        | ≥ 9.x     |
-| PostgreSQL | ≥ 15.x    |
+Ensure the following tools are installed on your system before proceeding:
+
+- Node.js (v18.x or higher)
+- npm (v9.x or higher)
+- PostgreSQL (v15.x or higher)
 
 ---
 
-## Running Both Services Locally
+## Environment Setup
 
-Open **two separate terminals** from the repository root:
+### Database Configuration
 
-### Terminal 1 — Backend API (port 4000)
+1. Start your PostgreSQL service.
+2. Create a new database named `hrms_db`.
 
-```bash
-cd backend
-cp .env.example .env       # fill in your DATABASE_URL and JWT_SECRET
-npm install
-npm run dev
-```
+You can initialize the database schema using Prisma from the backend directory (recommended) or use the raw SQL files provided in the `database` folder.
 
-### Terminal 2 — Frontend (port 3000)
+### Backend Setup (Port 4000)
 
-```bash
-cd frontend
-cp .env.example .env.local  # set NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
-npm install
-npm run dev
-```
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Copy the environment variables template:
+   ```bash
+   cp .env.example .env
+   ```
+3. Update the `.env` file with your specific configurations (e.g., `DATABASE_URL`, `JWT_SECRET`).
+4. Install dependencies:
+   ```bash
+   npm install
+   ```
+5. Apply database migrations and generate the Prisma client:
+   ```bash
+   npm run db:generate
+   npm run db:push
+   npm run db:seed
+   ```
+6. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-Open <http://localhost:3000> in your browser.
+### Frontend Setup (Port 3000)
 
----
+1. Open a new terminal and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Copy the environment variables template:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Ensure `NEXT_PUBLIC_API_URL` is set to your backend address (default: `http://localhost:4000/api/v1`).
+4. Install dependencies:
+   ```bash
+   npm install
+   ```
+5. Start the Next.js development server:
+   ```bash
+   npm run dev
+   ```
 
-## Environment Variables
-
-### `backend/.env` (copy from `.env.example`)
-
-| Variable          | Description                                  | Example                                              |
-|-------------------|----------------------------------------------|------------------------------------------------------|
-| `PORT`            | Port the API listens on                      | `4000`                                               |
-| `NODE_ENV`        | Runtime environment                          | `development`                                        |
-| `DATABASE_URL`    | PostgreSQL connection string                 | `postgresql://postgres:password@localhost:5432/hrms` |
-| `JWT_SECRET`      | Secret key for signing JSON Web Tokens       | *(long random string)*                               |
-| `JWT_EXPIRES_IN`  | Token expiry duration                        | `7d`                                                 |
-| `ALLOWED_ORIGINS` | Comma-separated allowed CORS origins         | `http://localhost:3000`                              |
-
-### `frontend/.env.local` (copy from `.env.example`)
-
-| Variable               | Description                    | Example                                |
-|------------------------|--------------------------------|----------------------------------------|
-| `NEXT_PUBLIC_API_URL`  | Base URL of the backend API    | `http://localhost:4000/api/v1`         |
-
----
-
-## Database Setup
-
-Ensure PostgreSQL is running, then:
-
-```bash
-psql -U postgres -c "CREATE DATABASE hrms_db;"
-psql -U postgres -d hrms_db -f database/schema.sql
-psql -U postgres -d hrms_db -f database/seed.sql
-```
-
-Default seed password for all employees: **`Password@123`**
+The application will be accessible at http://localhost:3000.
 
 ---
 
-## Git Branching Convention
+## Environment Variables Reference
 
-| Branch pattern      | Purpose                                          |
-|---------------------|--------------------------------------------------|
-| `main`              | Production-ready code — merge via PR only        |
-| `develop`           | Integration branch — all feature PRs target here |
-| `feature/<name>`    | New features, e.g. `feature/employee-profile`    |
-| `fix/<name>`        | Bug fixes, e.g. `fix/login-redirect`             |
-| `chore/<name>`      | Non-functional work, e.g. `chore/update-deps`    |
+### Backend (.env)
 
-### Workflow for team members
+- `PORT`: Port for the Express server (default: 4000)
+- `NODE_ENV`: Runtime environment (development/production)
+- `DATABASE_URL`: PostgreSQL connection string
+- `JWT_SECRET`: Secret key for JWT signing
+- `JWT_EXPIRES_IN`: Token validity duration (e.g., 7d)
+- `ALLOWED_ORIGINS`: Allowed CORS origins (e.g., http://localhost:3000)
 
-```bash
-# 1. Always branch from develop
-git checkout develop
-git pull origin develop
-git checkout -b feature/your-feature-name
+### Frontend (.env.local)
 
-# 2. Work, commit often with meaningful messages
-git add .
-git commit -m "feat: add employee list pagination"
-
-# 3. Push and open a Pull Request → develop
-git push origin feature/your-feature-name
-```
-
-> **Hackathon note:** Each team member must push their own branches and commits.
-> Do **not** push everyone's code from a single person's machine — judges verify
-> the contributor graph.
+- `NEXT_PUBLIC_API_URL`: Backend API base URL
 
 ---
 
-## Scripts Reference
+## Git Workflow Guidelines
 
-| Directory  | Command           | Description                    |
-|------------|-------------------|--------------------------------|
-| `frontend` | `npm run dev`     | Start Next.js dev server       |
-| `frontend` | `npm run build`   | Production build               |
-| `frontend` | `npm run lint`    | Run ESLint                     |
-| `backend`  | `npm run dev`     | Start API with hot-reload      |
-| `backend`  | `npm run build`   | Compile TypeScript → `dist/`   |
-| `backend`  | `npm start`       | Run compiled production server |
-| `backend`  | `npm run type-check` | Type-check without building |
+Please follow standard branching conventions for all contributions:
 
----
+- `main`: Production-ready code. Commits should only come from merged Pull Requests.
+- `develop`: Main integration branch.
+- `feature/<name>`: For new features.
+- `fix/<name>`: For bug fixes.
+- `chore/<name>`: For maintenance tasks.
 
-## Health Check
-
-Once the backend is running:
-
-```bash
-curl http://localhost:4000/health
-# → {"status":"ok","service":"hrms-backend","timestamp":"...","environment":"development"}
-```
+To contribute:
+1. Ensure you are on `develop` and up to date.
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Commit your changes with descriptive messages.
+4. Push your branch and open a Pull Request against `develop`.
 
 ---
 
 ## License
 
-MIT
+This project is licensed under the MIT License.
