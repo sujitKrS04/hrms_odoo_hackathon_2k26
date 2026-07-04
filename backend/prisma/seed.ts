@@ -1,4 +1,4 @@
-/**
+﻿/**
  * backend/prisma/seed.ts
  * ─────────────────────────────────────────────────────────────────────────────
  * Comprehensive HRMS development seed.
@@ -13,7 +13,7 @@
  *
  * Login-ID format: <company-initials> + first2(firstName) + first2(lastName)
  *                  + hireYear + 4-digit serial
- *   e.g. Arjun Sharma (2026, #0001) → ACARSH20260001
+ *   e.g. Arjun Sharma (2026, #0001) → OIARSH20260001
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -83,7 +83,7 @@ type AttDay = {
 
 const PATTERNS: Record<string, AttDay[]> = {
   // ── Arjun Sharma — Admin / CTO ──────────────────────────────────────────
-  ACARSH20260001: [
+  OIARSH20260001: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 30 },
     { status: 'present',        inH: 8,  inM: 50, outH: 18, outM: 45 },
     { status: 'present',        inH: 9,  inM: 10, outH: 18, outM: 0  },
@@ -96,7 +96,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 5,  outH: 18, outM: 30 },
   ],
   // ── Priya Nair — HR Director ────────────────────────────────────────────
-  ACPRNA20260002: [
+  OIPRNA20260002: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 0  },
     { status: 'present',        inH: 9,  inM: 20, outH: 17, outM: 45 },
     { status: 'present',        inH: 9,  inM: 15, outH: 18, outM: 15 },
@@ -109,7 +109,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 0  },
   ],
   // ── Kiran Das — HR Business Partner ────────────────────────────────────
-  ACKIDA20260003: [
+  OIKIDA20260003: [
     { status: 'present',        inH: 9,  inM: 5,  outH: 18, outM: 30 },
     { status: 'work_from_home', inH: 9,  inM: 30, outH: 17, outM: 0  },
     { status: 'present',        inH: 9,  inM: 15, outH: 18, outM: 15 },
@@ -122,7 +122,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 30, outH: 18, outM: 15 },
   ],
   // ── Rahul Mehta — Engineering Manager (on_leave index 4 = approved sick) ─
-  ACRAME20260004: [
+  OIRAME20260004: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 45 },
     { status: 'present',        inH: 8,  inM: 55, outH: 19, outM: 0  },
     { status: 'present',        inH: 9,  inM: 10, outH: 18, outM: 15 },
@@ -135,7 +135,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 0,  outH: 20, outM: 0,  note: 'Sprint crunch' },
   ],
   // ── Sneha Patel — Senior Software Engineer ──────────────────────────────
-  ACSNPA20260005: [
+  OISNPA20260005: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 30 },
     { status: 'present',        inH: 9,  inM: 5,  outH: 18, outM: 0  },
     { status: 'present',        inH: 9,  inM: 25, outH: 18, outM: 45 },
@@ -148,7 +148,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 30 },
   ],
   // ── Vikram Singh — Software Engineer ────────────────────────────────────
-  ACVISI20260006: [
+  OIVISI20260006: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 30 },
     { status: 'present',        inH: 9,  inM: 10, outH: 18, outM: 0  },
     { status: 'work_from_home', inH: 9,  inM: 30, outH: 17, outM: 0  },
@@ -161,7 +161,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'work_from_home', inH: 9,  inM: 30, outH: 17, outM: 30 },
   ],
   // ── Anjali Reddy — Junior Software Engineer ─────────────────────────────
-  ACANRE20260007: [
+  OIANRE20260007: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 0  },
     { status: 'present',        inH: 9,  inM: 15, outH: 18, outM: 15 },
     { status: 'half_day',       inH: 9,  inM: 0,  outH: 13, outM: 30, note: 'Bank work' },
@@ -174,7 +174,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 15, outH: 18, outM: 0  },
   ],
   // ── Meera Joshi — Finance Analyst (on_leave indices 6-7-8 = approved PTO) ─
-  ACMEJO20260008: [
+  OIMEJO20260008: [
     { status: 'present',        inH: 9,  inM: 5,  outH: 18, outM: 0  },
     { status: 'present',        inH: 9,  inM: 0,  outH: 17, outM: 45 },
     { status: 'present',        inH: 9,  inM: 15, outH: 17, outM: 30 },
@@ -187,7 +187,7 @@ const PATTERNS: Record<string, AttDay[]> = {
     { status: 'present',        inH: 9,  inM: 0,  outH: 17, outM: 30 },
   ],
   // ── Rohan Gupta — Account Executive ────────────────────────────────────
-  ACROGU20260009: [
+  OIROGU20260009: [
     { status: 'present',        inH: 9,  inM: 0,  outH: 18, outM: 30 },
     { status: 'present',        inH: 9,  inM: 15, outH: 18, outM: 45 },
     { status: 'work_from_home', inH: 9,  inM: 30, outH: 17, outM: 30 },
@@ -219,7 +219,7 @@ type SalaryDef = {
 
 const SALARY: Record<string, SalaryDef> = {
   // CTO — Monthly gross 350 000 → CTC 4 200 000
-  ACARSH20260001: {
+  OIARSH20260001: {
     ctc: 4_200_000, effectiveFrom: '2026-01-15',
     components: [
       { name: 'basic',                type: 'earning',   amount: 200_000 },
@@ -233,7 +233,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // HR Director — Monthly gross 230 000 → CTC 2 760 000
-  ACPRNA20260002: {
+  OIPRNA20260002: {
     ctc: 2_760_000, effectiveFrom: '2026-02-01',
     components: [
       { name: 'basic',                type: 'earning',   amount: 140_000 },
@@ -247,7 +247,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // HR BP — Monthly gross 150 000 → CTC 1 800 000
-  ACKIDA20260003: {
+  OIKIDA20260003: {
     ctc: 1_800_000, effectiveFrom: '2026-03-15',
     components: [
       { name: 'basic',                type: 'earning',   amount:  90_000 },
@@ -261,7 +261,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // Eng Manager — Monthly gross 270 000 → CTC 3 240 000
-  ACRAME20260004: {
+  OIRAME20260004: {
     ctc: 3_240_000, effectiveFrom: '2026-03-01',
     components: [
       { name: 'basic',                type: 'earning',   amount: 160_000 },
@@ -275,7 +275,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // Sr SWE — Monthly gross 180 000 → CTC 2 160 000
-  ACSNPA20260005: {
+  OISNPA20260005: {
     ctc: 2_160_000, effectiveFrom: '2026-04-01',
     components: [
       { name: 'basic',                type: 'earning',   amount: 110_000 },
@@ -289,7 +289,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // SWE — Monthly gross 130 000 → CTC 1 560 000
-  ACVISI20260006: {
+  OIVISI20260006: {
     ctc: 1_560_000, effectiveFrom: '2026-05-01',
     components: [
       { name: 'basic',                type: 'earning',   amount:  80_000 },
@@ -303,7 +303,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // Jr SWE — Monthly gross 90 000 → CTC 1 080 000  (below tax slab)
-  ACANRE20260007: {
+  OIANRE20260007: {
     ctc: 1_080_000, effectiveFrom: '2026-06-01',
     components: [
       { name: 'basic',                type: 'earning',   amount:  55_000 },
@@ -317,7 +317,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // Finance Analyst — Monthly gross 120 000 → CTC 1 440 000
-  ACMEJO20260008: {
+  OIMEJO20260008: {
     ctc: 1_440_000, effectiveFrom: '2026-07-01',
     components: [
       { name: 'basic',                type: 'earning',   amount:  75_000 },
@@ -331,7 +331,7 @@ const SALARY: Record<string, SalaryDef> = {
     ],
   },
   // Account Executive — Monthly gross 110 000 → CTC 1 320 000
-  ACROGU20260009: {
+  OIROGU20260009: {
     ctc: 1_320_000, effectiveFrom: '2026-08-01',
     components: [
       { name: 'basic',                type: 'earning',   amount:  70_000 },
@@ -384,12 +384,12 @@ async function main(): Promise<void> {
   console.log('  ✔  Company');
   const company = await prisma.company.create({
     data: {
-      name:    'Acme Corp',
-      code:    'AC',
+      name:    'Odoo India',
+      code:    'OI',
       address: '42, Cyber City, Gurugram, Haryana – 122002',
       phone:   '+91-124-4000000',
-      email:   'info@acmecorp.com',
-      website: 'https://acmecorp.com',
+      email:   'info@odooindia.com',
+      website: 'https://odooindia.com',
     },
   });
 
@@ -425,64 +425,64 @@ async function main(): Promise<void> {
   const [arjun, priya, kiran, rahul, sneha, vikram, anjali, meera, rohan] =
     await prisma.$transaction([
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACARSH20260001',
-        email: 'arjun.sharma@acmecorp.com', passwordHash, role: 'admin',
+        companyId: company.id, loginId: 'OIARSH20260001',
+        email: 'arjun.sharma@odooindia.com', passwordHash, role: 'admin',
         firstName: 'Arjun',  lastName: 'Sharma', phone: '+91-9800000001',
         departmentId: engDept.id,   jobPositionId: posCTO.id,
         hireDate: new Date('2026-01-15'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACPRNA20260002',
-        email: 'priya.nair@acmecorp.com', passwordHash, role: 'hr',
+        companyId: company.id, loginId: 'OIPRNA20260002',
+        email: 'priya.nair@odooindia.com', passwordHash, role: 'hr',
         firstName: 'Priya',  lastName: 'Nair',   phone: '+91-9800000002',
         departmentId: hrDept.id,    jobPositionId: posHRD.id,
         hireDate: new Date('2026-02-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACKIDA20260003',
-        email: 'kiran.das@acmecorp.com', passwordHash, role: 'hr',
+        companyId: company.id, loginId: 'OIKIDA20260003',
+        email: 'kiran.das@odooindia.com', passwordHash, role: 'hr',
         firstName: 'Kiran',  lastName: 'Das',    phone: '+91-9800000003',
         departmentId: hrDept.id,    jobPositionId: posHRBP.id,
         hireDate: new Date('2026-03-15'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACRAME20260004',
-        email: 'rahul.mehta@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OIRAME20260004',
+        email: 'rahul.mehta@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Rahul',  lastName: 'Mehta',  phone: '+91-9800000004',
         departmentId: engDept.id,   jobPositionId: posEM.id,
         hireDate: new Date('2026-03-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACSNPA20260005',
-        email: 'sneha.patel@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OISNPA20260005',
+        email: 'sneha.patel@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Sneha',  lastName: 'Patel',  phone: '+91-9800000005',
         departmentId: engDept.id,   jobPositionId: posSrSWE.id,
         hireDate: new Date('2026-04-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACVISI20260006',
-        email: 'vikram.singh@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OIVISI20260006',
+        email: 'vikram.singh@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Vikram', lastName: 'Singh',  phone: '+91-9800000006',
         departmentId: engDept.id,   jobPositionId: posSWE.id,
         hireDate: new Date('2026-05-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACANRE20260007',
-        email: 'anjali.reddy@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OIANRE20260007',
+        email: 'anjali.reddy@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Anjali', lastName: 'Reddy',  phone: '+91-9800000007',
         departmentId: engDept.id,   jobPositionId: posJrSWE.id,
         hireDate: new Date('2026-06-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACMEJO20260008',
-        email: 'meera.joshi@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OIMEJO20260008',
+        email: 'meera.joshi@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Meera',  lastName: 'Joshi',  phone: '+91-9800000008',
         departmentId: finDept.id,   jobPositionId: posFA.id,
         hireDate: new Date('2026-07-01'),
       }}),
       prisma.user.create({ data: {
-        companyId: company.id, loginId: 'ACROGU20260009',
-        email: 'rohan.gupta@acmecorp.com', passwordHash, role: 'employee',
+        companyId: company.id, loginId: 'OIROGU20260009',
+        email: 'rohan.gupta@odooindia.com', passwordHash, role: 'employee',
         firstName: 'Rohan',  lastName: 'Gupta',  phone: '+91-9800000009',
         departmentId: salesDept.id, jobPositionId: posAE.id,
         hireDate: new Date('2026-08-01'),
@@ -690,15 +690,15 @@ async function main(): Promise<void> {
 
   // ── 14. Print Credentials ─────────────────────────────────────────────
   const creds = [
-    { role: 'admin',    loginId: 'ACARSH20260001', name: 'Arjun Sharma'  },
-    { role: 'hr',       loginId: 'ACPRNA20260002', name: 'Priya Nair'    },
-    { role: 'hr',       loginId: 'ACKIDA20260003', name: 'Kiran Das'     },
-    { role: 'employee', loginId: 'ACRAME20260004', name: 'Rahul Mehta'   },
-    { role: 'employee', loginId: 'ACSNPA20260005', name: 'Sneha Patel'   },
-    { role: 'employee', loginId: 'ACVISI20260006', name: 'Vikram Singh'  },
-    { role: 'employee', loginId: 'ACANRE20260007', name: 'Anjali Reddy'  },
-    { role: 'employee', loginId: 'ACMEJO20260008', name: 'Meera Joshi'   },
-    { role: 'employee', loginId: 'ACROGU20260009', name: 'Rohan Gupta'   },
+    { role: 'admin',    loginId: 'OIARSH20260001', name: 'Arjun Sharma'  },
+    { role: 'hr',       loginId: 'OIPRNA20260002', name: 'Priya Nair'    },
+    { role: 'hr',       loginId: 'OIKIDA20260003', name: 'Kiran Das'     },
+    { role: 'employee', loginId: 'OIRAME20260004', name: 'Rahul Mehta'   },
+    { role: 'employee', loginId: 'OISNPA20260005', name: 'Sneha Patel'   },
+    { role: 'employee', loginId: 'OIVISI20260006', name: 'Vikram Singh'  },
+    { role: 'employee', loginId: 'OIANRE20260007', name: 'Anjali Reddy'  },
+    { role: 'employee', loginId: 'OIMEJO20260008', name: 'Meera Joshi'   },
+    { role: 'employee', loginId: 'OIROGU20260009', name: 'Rohan Gupta'   },
   ];
 
   const SEP = '─'.repeat(71);
