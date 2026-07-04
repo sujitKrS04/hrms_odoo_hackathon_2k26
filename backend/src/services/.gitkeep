@@ -1,0 +1,10 @@
+# Services are added here in later phases.
+# One file per domain:
+#   auth.service.ts
+#   employee.service.ts
+#   attendance.service.ts
+#   leave.service.ts
+#   payroll.service.ts
+#
+# Services import the prisma singleton from ../config/prisma.ts.
+# Business logic lives here, not in controllers.

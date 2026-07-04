@@ -1,0 +1,11 @@
+# Controllers are added here in later phases.
+# One file per domain:
+#   auth.controller.ts
+#   employee.controller.ts
+#   attendance.controller.ts
+#   leave.controller.ts
+#   payroll.controller.ts
+#   profile.controller.ts
+#
+# Every controller that mutates another user's record MUST import and call
+# canManage() from ../utils/permissions.ts before proceeding.
