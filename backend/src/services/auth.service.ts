@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { prisma } from '../config/prisma';
 import { signToken } from '../utils/jwt';
-import { generateLoginId } from '../utils/loginId';
+import { generateLoginId, deriveCompanyInitials } from '../utils/loginId';
 import { canManage } from '../utils/permissions';
 import { ApiError } from '../utils/ApiError';
 import type { UserRole } from '@prisma/client';
@@ -17,16 +17,7 @@ const BCRYPT_ROUNDS = 12;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Derive a short company code from the company name (first 2 letters, UPPERCASE) */
-function deriveCompanyCode(name: string): string {
-  return name
-    .trim()
-    .replace(/[^a-zA-Z\s]/g, '')
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? '')
-    .join('');
-}
+// deriveCompanyInitials is imported from utils/loginId — not duplicated here
 
 /**
  * Generates a random 12-char alphanumeric system password.
@@ -86,7 +77,7 @@ export async function signup(input: SignupInput): Promise<SignupResult> {
   }
 
   // ── Derive company code (unique-ify if collision) ─────────────────────
-  let code = deriveCompanyCode(input.companyName);
+  let code = deriveCompanyInitials(input.companyName);
   if (!code || code.length < 1) code = 'CO';
 
   // Ensure code uniqueness by appending a counter suffix
