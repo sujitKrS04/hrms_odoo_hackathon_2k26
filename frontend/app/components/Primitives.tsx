@@ -2,6 +2,47 @@
 
 import React from 'react';
 import { clsx } from 'clsx';
+import { motion } from 'framer-motion';
+import { useTheme } from './ThemeProvider';
+import { Sun, Moon, Monitor } from 'lucide-react';
+
+// ThemeToggle Component (ubiquitous floating toggle)
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  const themeCycle: ('light' | 'dark' | 'system')[] = ['light', 'dark', 'system'];
+  const toggleTheme = () => {
+    const currentIndex = themeCycle.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themeCycle.length;
+    setTheme(themeCycle[nextIndex]);
+  };
+
+  const getThemeIcon = () => {
+    if (theme === 'light') return <Sun className="h-5 w-5 text-accent" />;
+    if (theme === 'dark') return <Moon className="h-5 w-5 text-accent" />;
+    return <Monitor className="h-5 w-5 text-accent" />;
+  };
+
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className="fixed top-6 right-6 z-50 p-3 bg-surface/80 backdrop-blur-md border border-border rounded-full shadow-lg cursor-pointer hover:border-accent/40 text-accent transition-all duration-150 flex items-center justify-center"
+      title={`Theme: ${theme}`}
+      whileHover={{ scale: 1.08, rotate: 15 }}
+      whileTap={{ scale: 0.92 }}
+    >
+      <motion.div
+        key={theme}
+        initial={{ rotate: -90, scale: 0.7, opacity: 0 }}
+        animate={{ rotate: 0, scale: 1, opacity: 1 }}
+        exit={{ rotate: 90, scale: 0.7, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        {getThemeIcon()}
+      </motion.div>
+    </motion.button>
+  );
+}
 
 // PageHeader Component
 interface PageHeaderProps {
@@ -33,19 +74,36 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   subtitle?: string;
   action?: React.ReactNode;
+  disable3d?: boolean;
 }
 
-export function Card({ title, subtitle, action, children, className, ...props }: CardProps) {
+export function Card({ title, subtitle, action, children, className, disable3d = false, ...props }: CardProps) {
+  const CardWrapper = disable3d ? 'div' : motion.div;
+  const hoverProps = disable3d
+    ? {}
+    : {
+        whileHover: {
+          y: -6,
+          scale: 1.015,
+          rotateX: 2,
+          rotateY: -2,
+          transition: { duration: 0.25, ease: 'easeOut' },
+        },
+        style: { transformStyle: 'preserve-3d' as const },
+      };
+
   return (
-    <div
+    <CardWrapper
       className={clsx(
-        "bg-surface border border-border rounded-xl p-6 shadow-sm transition-all duration-200 hover:shadow-md",
+        "bg-surface border border-border rounded-xl p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:border-accent/30",
+        !disable3d && "perspective-1000",
         className
       )}
-      {...props}
+      {...hoverProps}
+      {...(props as any)}
     >
       {(title || subtitle || action) && (
-        <div className="flex items-center justify-between gap-4 mb-6 border-b border-border pb-4">
+        <div className="flex items-center justify-between gap-4 mb-6 border-b border-border pb-4" style={{ transform: 'translateZ(10px)' }}>
           <div>
             {title && (
               <h3 className="text-lg font-semibold text-text font-sans">
@@ -61,8 +119,8 @@ export function Card({ title, subtitle, action, children, className, ...props }:
           {action && <div>{action}</div>}
         </div>
       )}
-      <div>{children}</div>
-    </div>
+      <div style={{ transform: 'translateZ(5px)' }}>{children}</div>
+    </CardWrapper>
   );
 }
 

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { StatusDot } from '../components/StatusDot';
 import { AuthProvider } from '../components/AuthContext';
+import { ThemeToggle } from '../components/Primitives';
 
 const STATIC_DOTS = [
   { id: 1, top: '12%', left: '15%', status: 'present' as const, delay: '0.2s', opacity: 0.3 },
@@ -36,9 +37,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <AuthProvider>
-      <div className="min-h-screen flex flex-col md:flex-row overflow-x-hidden font-sans">
+      <div className="min-h-screen flex flex-col md:flex-row overflow-x-hidden font-sans relative">
+        {/* Floating Theme Switcher */}
+        <ThemeToggle />
+
+        {/* Global background grid */}
+        <div className="absolute inset-0 bg-grid pointer-events-none opacity-30 z-0" />
+
         {/* Left / Top branded panel */}
-        <div className="w-full md:w-[45%] h-[15vh] md:h-screen bg-background border-b md:border-b-0 md:border-r border-border relative overflow-hidden flex flex-col justify-center p-6 md:p-12 transition-all">
+        <div className="w-full md:w-[45%] h-[15vh] md:h-screen bg-background border-b md:border-b-0 md:border-r border-border relative overflow-hidden flex flex-col justify-center p-6 md:p-12 transition-all z-10">
           {/* Ambient grid of status dots (rendered only on client to ensure delay style consistency) */}
           {mounted && (
             <div className="absolute inset-0 z-0">
@@ -81,7 +88,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Right / Bottom form container */}
-        <div className="flex-1 flex items-center justify-center p-6 md:p-12 bg-surface">
+        <div className="flex-1 flex items-center justify-center p-6 md:p-12 bg-surface z-10">
           <div className="w-full max-w-md">
             {children}
           </div>

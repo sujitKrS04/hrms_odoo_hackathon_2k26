@@ -27,7 +27,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-inter), sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
   min-height: 100vh;
 }
 
@@ -51,4 +51,20 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* Repeating grid mesh background with radial mask */
+.bg-grid {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, var(--border) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom, var(--border) 0.5px, transparent 0.5px);
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%);
+  opacity: 0.85;
+}
+
+/* 3D perspective setup for tilt animations */
+.perspective-1000 {
+  perspective: 1000px;
 }
