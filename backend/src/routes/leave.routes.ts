@@ -6,9 +6,32 @@ import { Router } from 'express';
 import { z }      from 'zod';
 import { validate } from '../middleware/validate.middleware';
 import * as ctrl    from '../controllers/leave.controller';
+import { prisma }   from '../config/prisma';
 
 const router = Router();
 // All routes require authentication — authenticate() applied in index.ts
+
+// GET /api/leave-requests/types (get all leave types)
+router.get('/types', async (req, res, next) => {
+  try {
+    const types = await prisma.leaveType.findMany({
+      orderBy: { name: 'asc' }
+    });
+    res.json(types);
+  } catch (err) { next(err); }
+});
+
+// GET /api/leave-requests/allocations (get current user allocations)
+router.get('/allocations', async (req, res, next) => {
+  try {
+    const year = new Date().getFullYear();
+    const allocations = await prisma.leaveAllocation.findMany({
+      where: { userId: req.user!.id, year },
+      include: { leaveType: true }
+    });
+    res.json(allocations);
+  } catch (err) { next(err); }
+});
 
 // GET /api/leave-requests  (list, role-scoped)
 router.get('/', ctrl.listLeaveRequests);
@@ -38,3 +61,4 @@ const ReviewLeaveSchema = z.object({
 router.patch('/:id', validate(ReviewLeaveSchema), ctrl.reviewLeaveRequest);
 
 export default router;
+
