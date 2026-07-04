@@ -127,10 +127,11 @@ model User {
   departmentId  String?  @map("department_id")
   jobPositionId String?  @map("job_position_id")
   managerId     String?  @map("manager_id")
-  hireDate      DateTime @map("hire_date") @db.Date
-  isActive      Boolean  @default(true) @map("is_active")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt      @map("updated_at")
+  hireDate            DateTime @map("hire_date") @db.Date
+  isActive            Boolean  @default(true)  @map("is_active")
+  mustChangePassword  Boolean  @default(false) @map("must_change_password")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt      @map("updated_at")
 
   // Relations
   company         Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)

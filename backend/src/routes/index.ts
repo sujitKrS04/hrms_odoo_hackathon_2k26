@@ -12,14 +12,15 @@
  */
 import { Router } from 'express';
 import healthRouter from './health.routes';
+import authRouter   from './auth.routes';
 
 const router = Router();
 
 // ── Unauthenticated ──────────────────────────────────────────────────────────
-router.use(healthRouter); // GET /api/health
+router.use(healthRouter);       // GET /api/health
+router.use('/auth', authRouter); // POST /api/auth/signup | /login | /users | /change-password
 
 // ── Feature routes (added in later phases) ───────────────────────────────────
-// router.use('/auth',        authRoutes);
 // router.use('/employees',   authenticate, requireRole('admin','hr'), employeeRoutes);
 // router.use('/attendance',  authenticate, attendanceRoutes);
 // router.use('/leave',       authenticate, leaveRoutes);

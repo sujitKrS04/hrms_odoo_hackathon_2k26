@@ -105,6 +105,7 @@ CREATE TABLE users (
     manager_id      UUID        REFERENCES users(id)         ON DELETE SET NULL,
     hire_date       DATE        NOT NULL,
     is_active       BOOLEAN     NOT NULL DEFAULT TRUE,
+    must_change_password BOOLEAN NOT NULL DEFAULT FALSE,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
