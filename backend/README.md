@@ -51,11 +51,11 @@ Create a company + first admin account. **Public — no auth required.**
 curl -s -X POST http://localhost:4000/api/auth/signup \
   -H "Content-Type: application/json" \
   -d '{
-    "companyName": "Acme Corp",
-    "companyEmail": "admin@acmecorp.com",
+    "companyName": "Odoo India",
+    "companyEmail": "admin@odooindia.com",
     "firstName": "Arjun",
     "lastName": "Sharma",
-    "email": "arjun@acmecorp.com",
+    "email": "arjun@odooindia.com",
     "password": "Admin@1234"
   }' | jq .
 ```
@@ -67,14 +67,14 @@ curl -s -X POST http://localhost:4000/api/auth/signup \
   "token": "<jwt>",
   "user": {
     "id": "uuid",
-    "loginId": "ACarsm2024001",
-    "email": "arjun@acmecorp.com",
+    "loginId": "OIARSH20260001",
+    "email": "arjun@odooindia.com",
     "role": "admin",
     "firstName": "Arjun",
     "lastName": "Sharma",
     "mustChangePassword": false,
     "companyId": "uuid",
-    "companyName": "Acme Corp"
+    "companyName": "Odoo India"
   }
 }
 ```
@@ -101,7 +101,7 @@ Login with email + password. **Public.**
 curl -s -X POST http://localhost:4000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "arjun@acmecorp.com",
+    "email": "arjun@odooindia.com",
     "password": "Admin@1234"
   }' | jq .
 ```
@@ -113,8 +113,8 @@ curl -s -X POST http://localhost:4000/api/auth/login \
   "mustChangePassword": false,
   "user": {
     "id": "uuid",
-    "loginId": "ACarsm2024001",
-    "email": "arjun@acmecorp.com",
+    "loginId": "OIARSH20260001",
+    "email": "arjun@odooindia.com",
     "role": "admin",
     "firstName": "Arjun",
     "lastName": "Sharma",
@@ -140,7 +140,7 @@ curl -s -X POST http://localhost:4000/api/auth/users \
   -d '{
     "firstName": "Priya",
     "lastName": "Nair",
-    "email": "priya@acmecorp.com",
+    "email": "priya@odooindia.com",
     "role": "hr",
     "phone": "+91-9800000001"
   }' | jq .
@@ -152,8 +152,8 @@ curl -s -X POST http://localhost:4000/api/auth/users \
   "message": "User created. Share the generated password with the new user securely — it will not be shown again.",
   "user": {
     "id": "uuid",
-    "loginId": "ACprir2024002",
-    "email": "priya@acmecorp.com",
+    "loginId": "OIPRNA20260002",
+    "email": "priya@odooindia.com",
     "role": "hr",
     "firstName": "Priya",
     "lastName": "Nair",

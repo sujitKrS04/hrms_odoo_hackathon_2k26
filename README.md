@@ -8,32 +8,33 @@ This repository is structured as a monorepo containing independent frontend and 
 
 ## Features
 
-- Authentication & Authorization: Role-based access control (Admin, HR, Employee) with JWT.
-- Employee Management: Profiles, onboarding, departments, and job positions.
-- Attendance Tracking: Check-in/check-out system and attendance logs.
-- Leave Management: Leave types, allocations, and approval workflows.
-- Payroll Processing: Salary structures, compensation components (earnings/deductions).
+- **Authentication & Authorization**: Role-based access control (Admin, HR, Employee) with JWT.
+- **Employee Management**: Profiles, onboarding, departments, and job positions.
+- **Attendance Tracking**: Real-time check-in/check-out system and attendance logs.
+- **Leave Management**: Leave types, allocations, and approval workflows.
+- **Payroll Processing**: Salary structures, compensation components (earnings/deductions).
+- **Custom Login IDs**: Formatted dynamically based on company name, employee name, hire year, and a serial number (e.g., `OIARSH20260001` for Odoo India).
 
 ---
 
 ## Technology Stack
 
 ### Frontend
-- Framework: Next.js 14 (App Router)
-- Language: TypeScript
-- Styling: Tailwind CSS
-- UI Components: Radix UI, Framer Motion
-- Forms & Validation: React Hook Form, Zod
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI, Framer Motion, Lucide React
+- **Forms & Validation**: React Hook Form, Zod
 
 ### Backend
-- Framework: Node.js with Express
-- Language: TypeScript
-- ORM: Prisma
-- Validation: Zod
-- Authentication: JSON Web Tokens (JWT), bcrypt
+- **Framework**: Node.js with Express
+- **Language**: TypeScript
+- **ORM**: Prisma
+- **Validation**: Zod
+- **Authentication**: JSON Web Tokens (JWT), bcrypt
 
 ### Database
-- Engine: PostgreSQL 15+
+- **Engine**: PostgreSQL 15+
 
 ---
 
@@ -42,8 +43,15 @@ This repository is structured as a monorepo containing independent frontend and 
 ```text
 hrms/
 ├── frontend/          Next.js application
+│   ├── app/           Next.js App Router pages and layouts
+│   ├── public/        Static assets
+│   ├── .env.local     Frontend environment variables
+│   └── package.json   Frontend dependencies
 ├── backend/           Express REST API
-├── database/          Raw SQL schemas and seeds (reference)
+│   ├── src/           API controllers, routes, and services
+│   ├── prisma/        Prisma schema and seed scripts
+│   ├── .env           Backend environment variables
+│   └── package.json   Backend dependencies
 ├── .gitignore
 └── README.md
 ```
@@ -60,14 +68,12 @@ Ensure the following tools are installed on your system before proceeding:
 
 ---
 
-## Environment Setup
+## Getting Started
 
 ### Database Configuration
 
-1. Start your PostgreSQL service.
-2. Create a new database named `hrms_db`.
-
-You can initialize the database schema using Prisma from the backend directory (recommended) or use the raw SQL files provided in the `database` folder.
+1. Ensure your local PostgreSQL service is running.
+2. Create a new database (e.g., `hrms_db`).
 
 ### Backend Setup (Port 4000)
 
@@ -79,18 +85,28 @@ You can initialize the database schema using Prisma from the backend directory (
    ```bash
    cp .env.example .env
    ```
-3. Update the `.env` file with your specific configurations (e.g., `DATABASE_URL`, `JWT_SECRET`).
+3. Update the `.env` file with your specific configurations:
+   ```env
+   PORT=4000
+   NODE_ENV=development
+   DATABASE_URL="postgresql://user:password@localhost:5432/hrms_db?schema=public"
+   JWT_SECRET="your_secure_random_string"
+   JWT_EXPIRES_IN="7d"
+   ALLOWED_ORIGINS="http://localhost:3000"
+   ```
 4. Install dependencies:
    ```bash
    npm install
    ```
 5. Apply database migrations and generate the Prisma client:
    ```bash
-   npm run db:generate
-   npm run db:push
+   npm run db:migrate
+   ```
+6. Seed the database with initial demo data (Odoo India employees):
+   ```bash
    npm run db:seed
    ```
-6. Start the development server:
+7. Start the backend development server:
    ```bash
    npm run dev
    ```
@@ -105,7 +121,10 @@ You can initialize the database schema using Prisma from the backend directory (
    ```bash
    cp .env.example .env.local
    ```
-3. Ensure `NEXT_PUBLIC_API_URL` is set to your backend address (default: `http://localhost:4000/api/v1`).
+3. Ensure `NEXT_PUBLIC_API_URL` is set to your backend address:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:4000/api
+   ```
 4. Install dependencies:
    ```bash
    npm install
@@ -115,42 +134,48 @@ You can initialize the database schema using Prisma from the backend directory (
    npm run dev
    ```
 
-The application will be accessible at http://localhost:3000.
+The frontend application will now be accessible at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## Environment Variables Reference
+## Seeded Credentials (Demo Data)
 
-### Backend (.env)
+The database seed (`backend/prisma/seed.ts`) populates the system with users under the company **Odoo India**. 
 
-- `PORT`: Port for the Express server (default: 4000)
-- `NODE_ENV`: Runtime environment (development/production)
-- `DATABASE_URL`: PostgreSQL connection string
-- `JWT_SECRET`: Secret key for JWT signing
-- `JWT_EXPIRES_IN`: Token validity duration (e.g., 7d)
-- `ALLOWED_ORIGINS`: Allowed CORS origins (e.g., http://localhost:3000)
+**Password for all users:** `Dev@12345`
 
-### Frontend (.env.local)
-
-- `NEXT_PUBLIC_API_URL`: Backend API base URL
+| Role       | Login ID         | Full Name       |
+|------------|------------------|-----------------|
+| `admin`    | `OIARSH20260001` | Arjun Sharma    |
+| `hr`       | `OIPRNA20260002` | Priya Nair      |
+| `hr`       | `OIKIDA20260003` | Kiran Das       |
+| `employee` | `OIRAME20260004` | Rahul Mehta     |
+| `employee` | `OISNPA20260005` | Sneha Patel     |
+| `employee` | `OIVISI20260006` | Vikram Singh    |
+| `employee` | `OIANRE20260007` | Anjali Reddy    |
+| `employee` | `OIMEJO20260008` | Meera Joshi     |
+| `employee` | `OIROGU20260009` | Rohan Gupta     |
 
 ---
 
-## Git Workflow Guidelines
+## Available Scripts
 
-Please follow standard branching conventions for all contributions:
+### Backend (`/backend`)
+- `npm run dev`: Starts the Express API with hot-reloading (`ts-node-dev`).
+- `npm run build`: Compiles TypeScript to JavaScript in the `dist/` folder.
+- `npm run start`: Runs the compiled output in `dist/server.js`.
+- `npm run type-check`: Validates TypeScript without emitting files.
+- `npm run db:generate`: Generates Prisma Client.
+- `npm run db:migrate`: Runs pending migrations against the database.
+- `npm run db:seed`: Seeds the database with demo users and attendance records.
+- `npm run db:studio`: Opens Prisma Studio GUI at `http://localhost:5555`.
+- `npm run db:reset`: Resets the database and applies all migrations from scratch.
 
-- `main`: Production-ready code. Commits should only come from merged Pull Requests.
-- `develop`: Main integration branch.
-- `feature/<name>`: For new features.
-- `fix/<name>`: For bug fixes.
-- `chore/<name>`: For maintenance tasks.
-
-To contribute:
-1. Ensure you are on `develop` and up to date.
-2. Create a new branch: `git checkout -b feature/your-feature`
-3. Commit your changes with descriptive messages.
-4. Push your branch and open a Pull Request against `develop`.
+### Frontend (`/frontend`)
+- `npm run dev`: Starts the Next.js dev server.
+- `npm run build`: Creates an optimized production build.
+- `npm run start`: Starts the application in production mode.
+- `npm run lint`: Runs ESLint over the frontend project.
 
 ---
 
